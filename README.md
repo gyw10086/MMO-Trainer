@@ -67,6 +67,57 @@ python tools/refresh_patch_notes.py --out data/patch_notes.json
 脚本会自己判断：抓不到、或解析出来的条目少于 3 条，就非零退出并**保留旧文件**，
 不会把仓库写成空数据。内容没变化时不写文件，避免无意义的提交。
 
+## 官网改版了怎么办
+
+解析规则存了两份：客户端 `app/lol/patch_notes.py`、本仓库 `tools/refresh_patch_notes.py`。
+官网一改结构，两边会**同时**失效，表现是 Actions 变红、`data/patch_notes.json` 停在旧版本。
+按改动大小分两条路。
+
+### 小改：改选择器（最常见）
+
+典型情况是正文容器 `<div class="article">` 换了 class，或者条目从 `<h3>/<h4>` 换成了别的标签。
+这种情况下不用手工整理数据，改脚本就行：
+
+1. 改 `tools/refresh_patch_notes.py` 里的 `_extractArticle` / `_entries`
+2. 本地 `python tools/refresh_patch_notes.py --out data/patch_notes.json`，能出条目就提交
+3. **客户端不用动** —— 它读的是成品 JSON，不参与解析
+
+### 大改：手工上传一份整理好的文件
+
+整页重构成图片、或者数据挪进了接口，脚本短期写不出来，就人工整理：
+
+1. 打开公告页，按下面的最小结构抄成 JSON
+2. 直接覆盖并提交 `data/patch_notes.json`
+3. 客户端下一轮检查（≤ 45 分钟）就会读到
+
+```json
+{
+  "schema": 1,
+  "version": "26.24",
+  "date": "2026-12-02",
+  "url": "https://lol.qq.com/gicp/news/410/xxxxx.html",
+  "fetchedAt": 1796000000,
+  "items": [
+    {
+      "kind": "英雄",
+      "name": "安妮",
+      "title": "安妮：R 提伯斯生命值 1150 → 1275",
+      "detail": "提伯斯生命值：1150 - 3500 … → 1275 - 4000 …"
+    }
+  ]
+}
+```
+
+几条硬性要求：
+
+- `fetchedAt` 填当前时间戳（秒），客户端用它做新旧比较
+- `items` 至少 3 条，少于 3 条会被判成解析失败
+- `kind` 只能是 `英雄` / `装备` / `系统`
+- **抓取失败的那次运行不会覆盖这个文件**（脚本失败即退出，不写盘），所以手工版是安全的
+- 自动解析修好后，脚本发现版本更新会自然覆盖掉手工版
+
+手工版生效期间 Actions 会一直是红的，那是预期现象 —— 红着说明还没修好，别去点重跑。
+
 ## 注意
 
 - 数据全部来自官方公告页（`lol.qq.com`），不做二次加工、不改数值
