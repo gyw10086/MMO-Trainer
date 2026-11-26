@@ -67,6 +67,10 @@ python tools/refresh_patch_notes.py --out data/patch_notes.json
 脚本会自己判断：抓不到、或解析出来的条目少于 3 条，就非零退出并**保留旧文件**，
 不会把仓库写成空数据。内容没变化时不写文件，避免无意义的提交。
 
+抓取失败时 Actions 会**自动开一条 Issue**（同一天不重复开），把「兜底已经失效」
+顶到眼前；修好后手动关掉，下次再失败才会重新开。
+想验证告警链路，可以手动触发一次工作流并把 `force_fail` 勾上。
+
 ## 官网改版了怎么办
 
 解析规则存了两份：客户端 `app/lol/patch_notes.py`、本仓库 `tools/refresh_patch_notes.py`。

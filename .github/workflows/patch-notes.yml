@@ -62,7 +62,7 @@ jobs:
           body=$'GitHub Actions 抓取官网公告失败，data/patch_notes.json 已保留上一次成功的数据，客户端暂时不受影响。\n\n运行记录：${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\n\n处理办法见 README 的「官网改版了怎么办」：先判断是网络抖动（重跑一次即可）还是官网结构变了（改 tools/refresh_patch_notes.py；短期修不好就手工覆盖 JSON）。\n\n修好后关掉这个 Issue，下次再失败才会重新开。'
 
           gh issue create \
-            --title "公告数据抓取失败（$(date -u +%F)）" \
+            --title "公告数据抓取失败（$(TZ='Asia/Shanghai' date +%F)）" \
             --body "$body"
 
       - name: Commit if changed
