@@ -1,7 +1,7 @@
 {
-  "version": "2.2.24",
+  "version": "2.2.25",
   "published": "2026-11-27",
-  "notes": "## 本次更新\n\n- [新增] 「检查更新」支持仓库清单兜底：以前只查 GitHub Releases，仓库没发过 Release 就永远显示「已是最新」；现在没有 Release 时读仓库里的 `data/update.json`（jsDelivr 优先、raw 备用），有新版本照样能提示\n- [优化] 更新弹窗里的「手动下载」改成打开清单里给的地址，不再写死 Releases 页\n- [优化] 新增 `launcher/publish_update.py`：发版后一条命令把版本号与更新说明写进清单并推送，不用手抄\n- [优化] 新增 `_dev_tests/test_update_manifest.py`（16 项）：覆盖清单命中 / 版本相同 / 更旧 / Release 优先 / 两边都没有 / forbidden 透传",
+  "notes": "## 本次更新\n\n- [修复] 战绩详情浮层里点玩家名字，浮层不消失盖在新页面上、让人以为点击没反应：现在切生涯页前先收起浮层（浮层是独立顶层窗口，切页发生在它下面）\n- [修复] 连点两行战绩时可能叠出两个详情浮层，改为只保留最后打开的那个\n- [优化] 新增 `_dev_tests/test_detail_dismiss.py`（8 项）：覆盖无浮层 / 正常收起 / 浮层已销毁三种情况，并守住「先收起再切页」的调用顺序",
   "url": "https://github.com/gyw10086/MMO-Trainer",
   "assets": []
 }
