@@ -1,0 +1,28 @@
+/* 生涯页：只写本页独有部分，面板/行/分页条在 components.qss */
+
+#careerView {
+    background-color: transparent;
+}
+
+#careerAvatar {
+    background-color: #060708;
+    border: 1px solid #2C3138;
+}
+
+#careerIdentity {
+    background-color: #171A1E;
+    border: 1px solid #2C3138;
+}
+
+#careerRecent {
+    background-color: #101215;
+    border: 1px solid #1F2329;
+}
+
+QLabel#careerName {
+    color: #EAECEF;
+}
+
+QLabel#careerTag {
+    color: #8D949C;
+}

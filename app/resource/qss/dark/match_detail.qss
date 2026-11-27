@@ -1,0 +1,27 @@
+/* 单场详情浮层：无边框窗口，壳自己画背景和边线 */
+
+#matchDetailShell {
+    background-color: #101215;
+    border: 1px solid #2C3138;
+}
+
+/* 标题栏单独一条分隔线：面板顶部有个明确的「头」，
+   而不是从第一行内容直接开始 —— 那是页面的长相 */
+#matchDetailTitleBar {
+    border-bottom: 1px solid #1F2329;
+}
+
+/* 内嵌的 GameDetailView 里有一堆没写样式的容器, 不铺底色就是一块白板;
+   具体组件(TeamView / 装备格)自己带样式, 会盖掉这里的底色 */
+#matchDetailShell QWidget {
+    background-color: #101215;
+}
+
+#matchDetailShell QLabel {
+    color: #EAECEF;
+    background: transparent;
+}
+
+#matchDetailLoading {
+    background-color: #101215;
+}

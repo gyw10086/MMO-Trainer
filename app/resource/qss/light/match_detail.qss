@@ -1,0 +1,25 @@
+/* 单场详情浮层：无边框窗口，壳自己画背景和边线 */
+
+#matchDetailShell {
+    background-color: #FFFFFF;
+    border: 1px solid #CFD4DB;
+}
+
+/* 标题栏单独一条分隔线：面板顶部有个明确的「头」，
+   而不是从第一行内容直接开始 —— 那是页面的长相 */
+#matchDetailTitleBar {
+    border-bottom: 1px solid #E2E5EA;
+}
+
+#matchDetailShell QWidget {
+    background-color: #FFFFFF;
+}
+
+#matchDetailShell QLabel {
+    color: #12151A;
+    background: transparent;
+}
+
+#matchDetailLoading {
+    background-color: #FFFFFF;
+}

@@ -1,3 +1,66 @@
+# 忽略 Python 字节码文件
+**/__pycache__/
+
+# 忽略测试模块
+test.py
+
+# 忽略个人设置文件
+app/config/config.json
+
+# 忽略运行时下载的资源文件
+app/resource/game
+
+# 忽略 VS Code 配置文件夹
+.vscode
+
+# 忽略自用的打包脚本
+mymake.ps1
+
+# 忽略 HTML 图表文件
+render.html
+
+# 忽略日志文件
+log
+
+# 忽略虚拟环境
+venv
+seraphine
+
+# 忽略本地启动器产物 (exe 由 E:\seraphine\launcher\build.py 打出来)
+Seraphine.exe
+MMO战队训练帮手.exe
+launcher.json
+launcher.lock
+launcher-dryrun.log
+log/launcher-last-run.log
+
+# ---- 本仓库追加 ----
+# 打包产物：发布走 Releases，不进仓库
+dist/
+build/
+*.spec
+MMO-Trainer.exe
+*.zip
+*.7z
+
+# 运行时会生成 / 含本机路径的东西
+app/config/config.json
+*.log
+
+# 内部文档，不属于开源内容
+docs/产品文档.md
+docs/开发计划.md
+
+# 杂项
+python main.py/
+.idea/
+*.swp
+.DS_Store
+
+# 调试截图（可能含本机信息）
+_dev_tests/shot_*.png
+
+# ---- 数据仓原有 ----
 # 本地调试产物
 inst.json
 _step.sh

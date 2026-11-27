@@ -1,0 +1,329 @@
+/* 组件级样式：面板 / 战绩行 / 分页条 / 段位卡
+   挂在 QApplication 上，所有页面共用一份，避免每个页面各抄一遍。 */
+
+/* ── 面板壳 ── */
+QFrame[panel="true"] {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E5EA;
+}
+
+QFrame[panel="true"][primary="true"] {
+    background-color: #FAFBFC;
+    border: 1px solid #CFD4DB;
+}
+
+QWidget[panelHeader="true"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #E2E5EA;
+}
+
+/* 设计稿 .sec-no 是弱灰，编号只是序号不是强调色 */
+QLabel#panelCode {
+    color: #8C93A3;
+}
+
+QLabel#panelTitle {
+    color: #12151A;
+}
+
+/* ── 单场行 ── */
+QFrame[gameRow="true"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #EDF0F4;
+}
+
+QFrame[gameRow="true"]:hover {
+    background-color: #F2F5F9;
+}
+
+/* 生涯 [01] 逐场记录：单行表格，38px 一行 */
+QFrame[careerRow="true"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #E2E5EA;
+}
+
+QFrame[careerRow="true"]:hover {
+    background-color: #F2F5F9;
+}
+
+/* ── [02] 版本改动行 ── */
+QFrame[patchRow="true"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #EDF0F4;
+}
+
+QFrame[patchRow="true"]:hover {
+    background-color: #F2F5F9;
+}
+
+QFrame[patchRow="true"][patchRowLast="true"] {
+    border-bottom: none;
+}
+
+/* ── 快捷入口（总览左列底部）── */
+QFrame[quickItem="true"] {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E5EA;
+}
+
+QFrame[quickItem="true"]:hover {
+    background-color: #F2F5F9;
+    border-color: #CFD4DB;
+}
+
+/* ── 列表表头 ── */
+QWidget#rowHeader {
+    background-color: #F6F8FB;
+    border: none;
+    border-bottom: 1px solid #E2E5EA;
+}
+
+/* ── 分页条 ── */
+#pager {
+    background-color: #F6F8FB;
+    border: none;
+    border-top: 1px solid #E2E5EA;
+    min-height: 24px;
+    max-height: 24px;
+}
+
+QLabel#pagerCur {
+    color: #12151A;
+}
+
+QLabel#pagerTotal,
+QLabel#pagerSummary {
+    color: #6B7280;
+}
+
+/* ── 段位卡 ── */
+QFrame[rankCard="true"] {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E5EA;
+}
+
+QLabel#rankMeta {
+    color: #6B7280;
+}
+
+/* ── 生涯页 ── */
+#careerView {
+    background-color: transparent;
+}
+
+#careerIdentity,
+#careerRecent {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E5EA;
+}
+
+/* ── 状态条（总览） ── */
+#statusBar {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E5EA;
+}
+
+/* ── 详情浮层 ── */
+#matchDetailShell {
+    background-color: #F4F5F7;
+    border: 1px solid #CFD4DB;
+}
+
+#matchDetailShell QWidget {
+    background-color: #F4F5F7;
+}
+
+#matchDetailShell QLabel {
+    background: transparent;
+    color: #12151A;
+}
+
+#matchDetailLoading {
+    background-color: #F4F5F7;
+}
+
+/* ═══ 单场对局详情 ═══ */
+QFrame#matchHead,
+QFrame#bestStrip {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E5EA;
+}
+
+QLabel#matchTitle {
+    color: #12151A;
+    font-family: 'Microsoft YaHei UI', 'Segoe UI', 'Microsoft YaHei';
+    font-size: 15px;
+    font-weight: 600;
+}
+
+QLabel#matchSub {
+    color: #6B7280;
+    font-family: 'Cascadia Mono', Consolas, monospace;
+    font-size: 10px;
+}
+
+QFrame#teamBlock {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E5EA;
+    border-left: 3px solid #0F7C78;
+}
+
+QFrame#teamBlock[side="red"] {
+    border-left-color: #C0433A;
+}
+
+QWidget#teamBar {
+    border-bottom: 1px solid #E2E5EA;
+}
+
+QLabel#teamLabel {
+    color: #6B7280;
+    font-size: 9px;
+}
+
+QLabel#squareIcon {
+    background-color: #F6F8FB;
+    border: 1px solid #CFD4DB;
+}
+
+QLabel#squareIcon[empty="true"] {
+    background-color: #EDF0F4;
+}
+
+QFrame#champSlot {
+    background-color: #F6F8FB;
+    border: 1px solid #CFD4DB;
+}
+
+QLabel#champLevel {
+    color: #F4F5F7;
+    background-color: #12151A;
+}
+
+QLabel#rowName {
+    color: #12151A;
+    font-size: 12px;
+    padding: 0;
+    background: transparent;
+}
+
+QLabel#rowName:hover {
+    color: #8A6A15;
+}
+
+QFrame#summonerRow {
+    border-bottom: 1px solid #ECEEF2;
+    background: transparent;
+}
+
+QFrame#summonerRow[current="true"] {
+    background-color: #1A8A6A15;
+}
+
+QLabel#rowGold {
+    color: #8A6A15;
+}
+
+QFrame#damageBar {
+    background-color: #DDE1E7;
+    border: none;
+}
+
+QLabel#bestWho {
+    color: #5A6272;
+    font-size: 11px;
+}
+
+QScrollArea#matchScroll,
+QWidget#matchContent {
+    background-color: transparent;
+    border: none;
+}
+
+QFrame#matchDetailView,
+QScrollArea#matchScroll,
+QScrollArea#matchScroll > QWidget {
+    background-color: transparent;
+    border: none;
+}
+
+/* ═══ 弹窗外壳 ═══ */
+QFrame#modalShell {
+    background-color: #F4F5F7;
+    border: 1px solid #CFD4DB;
+}
+
+QWidget#modalFoot {
+    border-top: 1px solid #E2E5EA;
+}
+
+QFrame#champCell {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E5EA;
+}
+
+QFrame#champCell:hover {
+    border-color: #8A6A15;
+    background-color: #EDF0F4;
+}
+
+QFrame#champBar {
+    background-color: #DDE1E7;
+    border: none;
+}
+
+QFrame#teammateRow {
+    border-bottom: 1px solid #ECEEF2;
+    background: transparent;
+}
+
+QFrame#teammateRow:hover {
+    background-color: #1A8A6A15;
+}
+
+/* ═══ 三态 ═══ */
+QLabel#stateTitle {
+    color: #12151A;
+    font-size: 12px;
+}
+
+QLabel#stateHint {
+    color: #6B7280;
+    font-size: 11px;
+}
+
+QWidget#errorState QLabel#stateTitle {
+    color: #C0433A;
+}
+
+QLabel#rowKda,
+QLabel#rowNum,
+QLabel#rowDamage {
+    color: #12151A;
+}
+
+QLabel#rowRank {
+    color: #6B7280;
+}
+
+QLabel#bestKey,
+QLabel#bestWho {
+    color: #6B7280;
+}
+
+QLabel#bestValue {
+    color: #12151A;
+}
+
+/* ── 滚动区兜底 ──
+   QScrollArea 的 viewport 默认用浅色 palette 的 Base 绘制，
+   内容比视口矮一点就会露出一条白底，看着像「软件底色是白的」。 */
+QScrollArea,
+QScrollArea > QWidget > QWidget {
+    background-color: #F4F5F7;
+    border: none;
+}

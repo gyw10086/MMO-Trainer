@@ -1,0 +1,91 @@
+/* 总览页 —— 机能风：近黑底 / 1px 边框 / 方角 / 等宽数字 */
+
+#overviewView {
+    background-color: transparent;
+}
+
+/* ── 状态条 ── */
+#statusBar {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E5EA;
+}
+
+/* ── 面板壳 ── */
+QFrame[panel="true"] {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E5EA;
+}
+
+QWidget[panelHeader="true"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #E2E5EA;
+}
+
+QLabel#panelCode {
+    color: #8C93A3;
+}
+
+QLabel#panelTitle {
+    color: #12151A;
+}
+
+/* ── 单场行 ── */
+QFrame[gameRow="true"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #EDF0F4;
+}
+
+QFrame[gameRow="true"]:hover {
+    background-color: #F2F5F9;
+}
+
+QLabel#rowHero {
+    background: transparent;
+}
+
+/* ── 段位卡 ── */
+QFrame[rankCard="true"] {
+    background-color: transparent;
+    border: none;
+}
+
+QLabel#rankMeta {
+    color: #6B7280;
+}
+
+/* ── 列表表头 ── */
+QWidget#rowHeader {
+    background-color: #F6F8FB;
+    border: none;
+    border-bottom: 1px solid #E2E5EA;
+}
+
+/* ── 分页条 ── */
+#pager {
+    background-color: #F6F8FB;
+    border: none;
+    border-top: 1px solid #E2E5EA;
+    min-height: 24px;
+    max-height: 24px;
+}
+
+QLabel#pagerCur {
+    color: #12151A;
+}
+
+QLabel#pagerTotal,
+QLabel#pagerSummary {
+    color: #6B7280;
+}
+
+/* ── 详情浮层 ── */
+#matchDetailShell {
+    background-color: #F4F5F7;
+    border: 1px solid #CFD4DB;
+}
+
+#matchDetailLoading {
+    background-color: #F4F5F7;
+}

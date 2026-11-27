@@ -1,0 +1,70 @@
+SearchInterface {
+    border: none;
+    background-color: #0A0B0D;
+}
+
+/* 结果区不再自带外框：左列表 + 右侧详情各自有边框，外面再套一圈会变双线 */
+GamesView {
+    border: none;
+    background-color: transparent;
+}
+
+/* 搜索空态：设计稿 S6 的虚线框 */
+#searchEmpty {
+    border: 1px dashed #1F2329;
+    background-color: transparent;
+}
+
+GamesTab {
+    border: none;
+    border-right: 1px solid #1F2329;
+    background-color: transparent;
+}
+
+GamesTab>QLabel {
+    color: #EAECEF;
+    font: 12px 'Microsoft YaHei UI', 'Microsoft YaHei';
+}
+
+#emptyLabel {
+    color: #8D949C;
+    font: 12px 'Microsoft YaHei UI', 'Microsoft YaHei';
+}
+
+GameTab {
+    border: 1px solid;
+    border-radius: 0px;
+}
+
+GameTab[selected=true] {
+    border-width: 3px;
+}
+
+GameTab>QLabel {
+    color: white;
+    font: 14px 'Segoe UI', 'Microsoft YaHei';
+}
+
+GameTab>#time {
+    font: 12px;
+}
+
+GameTab>#kills {
+    font: 12px;
+}
+
+GameTab>#slash1 {
+    font: 12px;
+}
+
+GameTab>#deaths {
+    font: 12px;
+}
+
+GameTab>#slash2 {
+    font: 12px;
+}
+
+GameTab>#assists {
+    font: 12px;
+}

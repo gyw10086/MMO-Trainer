@@ -1,130 +1,141 @@
-# MMO-Trainer · 线上数据
+<div align="center">
 
-这个仓库托管 **MMO-Trainer 客户端运行时要用、但不适合写死在 exe 里的数据**。
-客户端用固定的 Raw 地址读，**更新数据不需要发新版本**。
+<img src="docs/screenshots/overview.png" alt="MMO战队训练助手 — 英雄联盟战绩查询与 BP 对位助手界面" width="880">
 
-## 现在托管什么
+# MMO战队训练助手
 
-| 文件 | 内容 | 谁在刷 |
-|---|---|---|
-| `data/patch_notes.json` | 英雄联盟国服「版本更新公告」解析结果（英雄 / 装备 / 系统改动） | GitHub Actions，每 6 小时 |
+**英雄联盟战绩查询 · 对局信息 · 选人 BP 对位胜率助手**
+League of Legends match history viewer & champion select (BP) assistant — 基于 LCU API 的 Windows 桌面应用
 
-## 客户端怎么读
+[![License](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D4)](#)
+[![Python](https://img.shields.io/badge/python-3.11%2B-3776AB)](https://www.python.org/)
+[![UI](https://img.shields.io/badge/UI-PyQt5%20%2B%20PyQt--Fluent--Widgets-41CD52)](#)
+[![Version](https://img.shields.io/badge/version-2.2.48-E3B23C)](#)
 
-```
-https://raw.githubusercontent.com/gyw10086/MMO-Trainer/main/data/patch_notes.json
-https://cdn.jsdelivr.net/gh/gyw10086/MMO-Trainer@main/data/patch_notes.json
-```
+</div>
 
-Raw 不通时自动走 jsDelivr，两个地址内容完全一致。
+> **截图说明**：仓库里的界面图是**按真实界面复刻的设计稿**，所有召唤师名称、战绩、对位数据均为虚构示例，不含任何真实玩家信息。
 
-客户端的行为：
+---
 
-1. 本地缓存 45 分钟内有效，命中直接用，不打网络
-2. 过期后**并发**请求「官方公告页」和「本仓库 JSON」，按 (版本号, 来源) 取新的
-3. 两个都失败 → 退回本地旧缓存，界面标「缓存」
-4. 一个都没拿到 → 界面显示「暂时连不上官方公告」
+## 这是什么
 
-为什么要有这一路：解析规则写在客户端里，官网一改版，已经发出去的旧版本就再也
-解析不出来，只能等发版修。有了这份提前解析好的 JSON，官网改版时只要更新仓库
-里的数据（必要时连带改 `tools/refresh_patch_notes.py`），所有旧客户端立刻恢复。
+一款面向《英雄联盟》玩家的桌面助手。它**只读取官方客户端公开的本地接口**（LCU / Live Client Data / 公开战绩接口），把「这局队友和对手是谁、他们最近打得怎么样、我这一手英雄该怕谁」集中到一个窗口里，不用再切网页。
 
-## 数据结构
+- **不读游戏内存，不注入 DLL，不加载驱动，不模拟键鼠** —— 详见 [安全与合规](#安全与合规)
+- 绿色免安装，解压即用
+- 深色 / 浅色双主题，可跟随系统
 
-```json
-{
-  "schema": 1,
-  "version": "26.23",
-  "date": "2026-11-18",
-  "url": "https://lol.qq.com/gicp/news/410/37102797.html",
-  "fetchedAt": 1795721955,
-  "items": [
-    {
-      "kind": "英雄",
-      "name": "安妮",
-      "title": "安妮：R 提伯斯生命值 1150 → 1275",
-      "detail": "提伯斯生命值：1150 - 3500 …",
-      "version": "26.23",
-      "date": "2026-11-18",
-      "url": "https://lol.qq.com/…"
-    }
-  ]
-}
-```
+## 功能
 
-- `schema`：格式版本，客户端只认 `<=` 自己支持的那个，加字段时递增
-- `kind`：`英雄` / `装备` / `系统`
-- `title`：面板上显示的那一行；`detail`：展开后的原文数值行
-- `items` 已按「英雄 → 装备 → 系统」交替排序，保证首屏三类都能看到
+| 模块 | 能做什么 |
+| --- | --- |
+| **总览** | 自己的段位、近 20 场胜率、场均 KDA、平均评分；最近对局一屏看完（英雄 / KDA / 伤害 / 金币 / 评分 / 时间） |
+| **对局信息** | 十名玩家的英雄、段位、胜率一览；双方阵容对照，含**对位胜率**（上单打上单、打野对打野） |
+| **BP 对位浮窗** | 选人阶段自动浮在客户端上方，**一个敌人一张卡**，每张卡列出该英雄最怕 / 最好打的 10 个对位；可拖动、可折叠、单卡刷新 |
+| **生涯** | 任意玩家（含自己）的段位、常用英雄、近期表现、最近队友 |
+| **战绩查询** | 按召唤师名 / 编号查人，带历史记录；双排、多排用同一颜色标注 |
+| **其他功能** | 自动接受对局、自动接受换位 / 换英雄、自动选人、自动禁用、自动带召唤师技能、自动点赞、断线重连、锁定游戏配置、修复客户端窗口、一键观战 |
+| **数据源** | OP.GG（韩服 / 国服可切）、101 榜单、官方版本公告；浮窗跟随数据源切换 |
 
-## 手动刷新
+<div align="center">
+<img src="docs/screenshots/game-info.png" alt="对局信息页：十名玩家的英雄、段位、胜率与对位关系" width="880">
+</div>
+
+<div align="center">
+<img src="docs/screenshots/bp-overlay.png" alt="BP 对位浮窗：五个敌人各一张卡，列出对位胜率最高的英雄" width="880">
+</div>
+
+<div align="center">
+<img src="docs/screenshots/settings.png" alt="设置页：主题、客户端目录、自动接受与禁选、在线更新、安全说明" width="880">
+</div>
+
+## 安装
+
+### 方式一：直接下载（推荐）
+
+到 [**Releases**](../../releases/latest) 下载：
+
+- `MMO-Trainer-2.2.48-standalone.zip` —— 第一次用，解压到任意目录，双击 `MMO-Trainer.exe`，不需要装 Python
+- `MMO-Trainer-2.2.48-update.zip` —— 已有旧版，拖进程序窗口即可更新
+
+发布页同时给出两个包的 SHA256；杀软报毒时先核对哈希。
+
+### 方式二：从源码运行
 
 ```bash
-pip install requests
-python tools/refresh_patch_notes.py --out data/patch_notes.json
+git clone https://github.com/gyw10086/lol-mmo-trainer.git
+cd lol-mmo-trainer
+pip install -r requirements.txt
+python main.py
 ```
 
-脚本会自己判断：抓不到、或解析出来的条目少于 3 条，就非零退出并**保留旧文件**，
-不会把仓库写成空数据。内容没变化时不写文件，避免无意义的提交。
+要求 Windows 10 / 11 + Python 3.11+，且本机已安装并能正常登录《英雄联盟》客户端。
 
-抓取失败时 Actions 会**自动开一条 Issue**（同一天不重复开），把「兜底已经失效」
-顶到眼前；修好后手动关掉，下次再失败才会重新开。
-想验证告警链路，可以手动触发一次工作流并把 `force_fail` 勾上。
+## 安全与合规
 
-## 官网改版了怎么办
+这类工具最容易被误判成外挂，所以把边界写清楚：
 
-解析规则存了两份：客户端 `app/lol/patch_notes.py`、本仓库 `tools/refresh_patch_notes.py`。
-官网一改结构，两边会**同时**失效，表现是 Actions 变红、`data/patch_notes.json` 停在旧版本。
-按改动大小分两条路。
+| 会做的事 | 不会做的事 |
+| --- | --- |
+| 读取客户端进程的命令行，拿到本地 `--app-port` / `--remoting-auth-token` | 读写游戏进程内存 |
+| 通过 `https://127.0.0.1:{端口}` 调客户端自己的 HTTP 接口 | 注入 DLL / 加载驱动 / Hook 图形接口 |
+| 读取 `127.0.0.1:2999` 的 Live Client Data（官方提供的对局数据接口） | 模拟键鼠、向游戏进程发送输入 |
+| 在**选人阶段**把浮窗贴在客户端窗口上（离开选人自动隐藏） | 在游戏画面里绘制任何内容 |
+| 用玩家自己的 token 请求公开战绩接口 | 上传或留存任何账号凭据（token 不落盘、不进日志） |
 
-### 小改：改选择器（最常见）
+- 自动化功能（自动接受 / 选人 / 禁用）**默认全部关闭**，需要主动打开；它们只是替你点一下客户端上本来就有的按钮。
+- 仓库不含任何第三方可执行文件，安装包里也只有主程序本身。
+- 如果杀毒软件报毒，请先核对发布页公布的 SHA256；一致即为误报，加信任即可。
 
-典型情况是正文容器 `<div class="article">` 换了 class，或者条目从 `<h3>/<h4>` 换成了别的标签。
-这种情况下不用手工整理数据，改脚本就行：
+## 常见问题
 
-1. 改 `tools/refresh_patch_notes.py` 里的 `_extractArticle` / `_entries`
-2. 本地 `python tools/refresh_patch_notes.py --out data/patch_notes.json`，能出条目就提交
-3. **客户端不用动** —— 它读的是成品 JSON，不参与解析
+**Q：提示「需要管理员权限」？**
+「修复客户端窗口」需要调整客户端窗口，而客户端通常以管理员身份运行，Windows 的 UIPI 会拦下普通权限进程。此时用管理员身份重启本程序即可。
 
-### 大改：手工上传一份整理好的文件
+**Q：浮窗不显示？**
+浮窗只在**选人阶段**出现，且需要能拿到客户端窗口位置。客户端最小化或未登录时不会出现。
 
-整页重构成图片、或者数据挪进了接口，脚本短期写不出来，就人工整理：
+**Q：会不会封号？**
+本项目不触碰游戏进程、不改变任何游戏行为，只读取客户端自己对外暴露的数据。但任何第三方工具都没有官方授权，请自行评估风险，尤其是自动化功能。
 
-1. 打开公告页，按下面的最小结构抄成 JSON
-2. 直接覆盖并提交 `data/patch_notes.json`
-3. 客户端下一轮检查（≤ 45 分钟）就会读到
+**Q：数据为什么和客户端里看到的不一样？**
+战绩来自公开接口，存在缓存与延迟；分路判定走 SGP 的 `teamPosition`，极少数非常规分路可能识别不到。
 
-```json
-{
-  "schema": 1,
-  "version": "26.24",
-  "date": "2026-12-02",
-  "url": "https://lol.qq.com/gicp/news/410/xxxxx.html",
-  "fetchedAt": 1796000000,
-  "items": [
-    {
-      "kind": "英雄",
-      "name": "安妮",
-      "title": "安妮：R 提伯斯生命值 1150 → 1275",
-      "detail": "提伯斯生命值：1150 - 3500 … → 1275 - 4000 …"
-    }
-  ]
-}
+## 技术栈
+
+`Python 3.11` · `PyQt5` · `PyQt-Fluent-Widgets` · `qasync` · `aiohttp` · `LCU API` · `Live Client Data API`
+
+```
+app/
+├── common/          主题、设计令牌、配置、日志、在线更新、窗口工具
+├── lol/             LCU 连接器、SGP、OP.GG、101、分路判定、BP 对位
+├── components/      战绩卡片、对局详情浮层、对话框等可复用组件
+├── view/            各个页面与 BP 浮窗
+└── resource/        图标、样式、字体
+_dev_tests/          35 个离线测试脚本（不依赖客户端，可直接跑）
 ```
 
-几条硬性要求：
+## 开发
 
-- `fetchedAt` 填当前时间戳（秒），客户端用它做新旧比较
-- `items` 至少 3 条，少于 3 条会被判成解析失败
-- `kind` 只能是 `英雄` / `装备` / `系统`
-- **抓取失败的那次运行不会覆盖这个文件**（脚本失败即退出，不写盘），所以手工版是安全的
-- 自动解析修好后，脚本发现版本更新会自然覆盖掉手工版
+```bash
+python _dev_tests/test_positions.py    # 单跑，退出码 0 即通过
+python -m compileall app               # 语法自查
+```
 
-手工版生效期间 Actions 会一直是红的，那是预期现象 —— 红着说明还没修好，别去点重跑。
+测试全部是离线用例：不读写你的 `config.json`，不连接客户端，涉及窗口与系统调用的分支都做了替身。
 
-## 注意
+## 致谢
 
-- 数据全部来自官方公告页（`lol.qq.com`），不做二次加工、不改数值
-- 官网版本号是 `26.x`，101 数据站是 `16.x`，两套编号不要混
-- 改解析规则时，`tools/refresh_patch_notes.py` 和客户端里的
-  `app/lol/patch_notes.py` 要一起改
+界面与部分底层实现源自开源项目 **[Seraphine](https://github.com/Zzaphkiel/Seraphine)**（作者 Zzaphkiel，GPL-3.0）。本项目在其基础上做了大量重构与功能扩展（界面重做、BP 浮窗、对位胜率、分路判定、在线更新等），并按 GPL-3.0 继续开源。
+
+数据来源：腾讯官方公开数据接口、OP.GG、101 榜单。
+
+## 免责声明
+
+本项目仅供学习与个人使用，与腾讯、Riot Games 无任何关联。使用本工具产生的任何后果（包括但不限于账号处罚）由使用者自行承担，请遵守游戏用户协议。
+
+## License
+
+[GPL-3.0](LICENSE)
