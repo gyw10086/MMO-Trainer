@@ -65,8 +65,8 @@ League of Legends match history viewer & champion select (BP) assistant — 基�
 ### 方式二：从源码运行
 
 ```bash
-git clone https://github.com/gyw10086/lol-mmo-trainer.git
-cd lol-mmo-trainer
+git clone https://github.com/gyw10086/MMO-Trainer.git
+cd MMO-Trainer
 pip install -r requirements.txt
 python main.py
 ```
