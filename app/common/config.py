@@ -303,7 +303,7 @@ class Config(QConfig):
 
 YEAR = 2023
 AUTHOR = "gyw10086"
-VERSION = "2.2.48"
+VERSION = "2.2.49"
 BETA = None
 
 # 首启安全说明的版本号：**加一条说明就把这个数 +1**，老用户下次启动会再看到一次
